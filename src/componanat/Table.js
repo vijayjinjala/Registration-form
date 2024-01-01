@@ -32,22 +32,26 @@ export default function Table() {
         var i = 0;
         return props.tabledata.map((element) => {
           i++;
+          let image_src="http://localhost:3002/uplods/"+element.img;
+          // let image_src="https://webneel.com/daily/sites/default/files/images/daily/08-2018/1-nature-photography-spring-season-mumtazshamsee.jpg";
         return(
             <tr>
             <th>{i}</th>    
             <th scope="row" style={{color:"#666666;"}}>{element.fname}</th>
             <th scope="row" style={{color:"#666666;"}}>{element.lname}</th>
+            <td><img src={image_src} className='tableimg' id='tableimg' ></img></td>
+            {/* <td>{element.img}</td> */}
             <td>{element.state}</td>
             <td>{element.city}</td>
             <td>{element.email}</td>
             <td>{element.pass}</td>
             <td>{element.gender}</td>
             <th className="col">
-                <i class="bi bi-pencil-square m-3 fs-4"
+                <i class="bi bi-pencil-square m-3 fs-4 bg-success text-white" 
                  onClick={() => editdata(element._id)}>
 
                  </i>
-                <i class="bi bi-trash3-fill fs-4 "
+                <i class="bi bi-trash3-fill fs-4 bg-danger text-white"
                 onClick={() => deletedata(element._id)}>
                 </i>
             </th>
@@ -85,7 +89,7 @@ const deletedata = (id) => {
           
 
   }
-  console.log("delete id.." + id);
+  // console.log("delete id.." + id);
 };
 
   return (
@@ -102,6 +106,7 @@ const deletedata = (id) => {
                     <th scope="col">ID</th>
                     <th scope="col">First NAME</th>
                     <th scope="col">LAST NAME</th>
+                    <th scope="col">IMAGE</th>
                     <th scope="col">STATE</th>
                     <th scope="col">CITY</th>
                     <th scope="col">EMAIL</th>

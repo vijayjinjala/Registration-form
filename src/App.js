@@ -1,6 +1,7 @@
 import './App.css';
 import Form from './componanat/Form';
 import Table from './componanat/Table';
+// import Loginform from './componanat/Loginform'; 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
@@ -16,6 +17,7 @@ function App() {
     </BrowserRouter>
   {/* <Form></Form> */}
   {/* <Table></Table> */}
+  {/* <Loginform></Loginform> */}
     </>
   );
 }

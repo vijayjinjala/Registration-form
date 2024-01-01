@@ -5,8 +5,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 
+
 export default function Form() {
   const location = useLocation();
+  const[file, setFile] = useState();
+  const [filedata, setFiledata] = useState();
     useEffect(()=>{
   if(location.state){
     getdata(location.state.id)
@@ -37,7 +40,9 @@ export default function Form() {
       console.log(JSON.stringify({id:id})); 
       const options = {
         method:'GET',
-        headers: { "content-Type": "application/json" },
+        
+        
+        s: { "content-Type": "application/json" },
         // body:json.stringify({id:id})
       };
       fetch(`http://localhost:3002/registration?id=${id}`, options)
@@ -52,11 +57,23 @@ export default function Form() {
           formik.setFieldValue("email",response[0].email)
           formik.setFieldValue("pass",response[0].pass)
           formik.setFieldValue("gender",response[0].gender)
+          if(file==null){
+            setFile("http://localhost:3002/uplods/"+response[0].img )
+          }
         })
         .catch((err)=>{
           alert("server down..")
           console.log(err);
         });
+    }
+
+    const handleclick=()=>{
+      document.getElementById("img").click();
+    }
+
+    const showPreview=(e)=>{
+      setFile(URL.createObjectURL(e.target.files[0]));
+      setFiledata(e.target.files[0]);
     }
 
   const Navigate = useNavigate();
@@ -72,6 +89,7 @@ export default function Form() {
       pass: "",
       cpass: "",
       gender: "",
+      img:""
     },
     validationSchema: Yup.object({
       fname: Yup.string().label().required("Enter your first name*"),
@@ -86,10 +104,16 @@ export default function Form() {
     }),
 
     onSubmit: function (values) {
+
+      var formdata=new FormData();
+      for (const [key, value] of Object.entries(values)){
+        formdata.append(key,value)
+      }
+      formdata.append("Image",filedata)
       const options = {
         method: "POST",
-        body: JSON.stringify(values),
-        headers: { "content-Type": "application/json" },
+        body:formdata,
+        // body: JSON.stringify(values),
       };
 
       fetch("http://localhost:3002/registration", options)
@@ -126,8 +150,9 @@ export default function Form() {
                         <h3 className="mb-5 text-uppercase">
                           Student registration form
                         </h3>
-                        <div className="ibox">
-                          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKqsXA8K7oaMV5y017LJUJTYuDhH2bIodoTA&usqp=CAU" />
+                        <div className="logo" id='logo' onClick={handleclick}>
+                        <input type='file' onChange={(Event)=>showPreview(Event)}  id='img'/>
+                          <img id="preview" src={ file==null? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKqsXA8K7oaMV5y017LJUJTYuDhH2bIodoTA&usqp=CAU":file} />
                         </div>
 
                         <div className="row">

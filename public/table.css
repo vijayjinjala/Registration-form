@@ -25,3 +25,10 @@ tbody td {
   font-weight: 500;
   color: #999999;
 }
+
+#tableimg{
+  height: 55px;
+  width: 55px;
+  border: 1px solid black;
+  border-radius: 50%;
+}
